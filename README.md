@@ -7,7 +7,7 @@ Payze is a way to clear and effortless online payments. We provide various techn
 - Accept payments using initially saved cards. After successfully adding a card you can initiate recurring payments.
 - Send a one-time payment link to your customer through any desired channel and let them complete the purchase in their own way.
 
-Help grow your business faster with the Payze
+Help grow your business faster with the Payze.
 
 ## Installation
 This Module is Extension Installer ready.
