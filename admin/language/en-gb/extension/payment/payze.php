@@ -1,8 +1,9 @@
 <?php
 // Heading
-$_['heading_title']    					= 'Payze';
+$_['heading_title']		 				= 'Payze';
 
 // Text
+$_['text_payze']		 				= '<img src="view/image/payment/payze.png" alt="Payze" title="Payze" />';
 $_['text_extensions']   				= 'Extensions';
 $_['text_edit']        					= 'Edit Payze';
 $_['text_tab_general']				 	= 'General';
@@ -23,13 +24,17 @@ $_['entry_api_secret']					= 'API Secret';
 $_['entry_title']						= 'Title';
 $_['entry_preauthorize']				= 'Preauthorization';
 $_['entry_debug']				 		= 'Debug Logging';
+$_['entry_total']		 				= 'Total';
 $_['entry_geo_zone']     				= 'Geo Zone';
 $_['entry_status']       				= 'Status';
 $_['entry_sort_order']   				= 'Sort Order';
 
+// Help
+$_['help_total']         				= 'The checkout total the order must reach before this payment method becomes active.';
+
 // Button
 $_['button_save']  						= 'Save';
-$_['button_back']  						= 'Back';
+$_['button_cancel']  					= 'Cancel';
 
 // Success
 $_['success_save']						= 'Success: You have modified Payze!';

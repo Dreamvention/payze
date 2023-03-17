@@ -1,0 +1,1 @@
+<?php echo $text_transaction_id; ?>: <?php echo $transaction_id; ?>

@@ -1,13 +1,12 @@
 <?php
-namespace Opencart\System\Library;
 class Payze {
 	private $server = 'https://payze.io/api/v1';
 	private $api_key = '';
 	private $api_secret = '';
-	private $errors = [];
-	private $last_response = [];
+	private $errors = array();
+	private $last_response = array();
 		
-	public function __construct(string $api_key, string $api_secret) {
+	public function __construct($api_key, $api_secret) {
 		if (!empty($api_key)) {
 			$this->api_key = $api_key;
 		}
@@ -17,7 +16,7 @@ class Payze {
 		}
 	}
 	
-	public function justPay(array $data) {
+	public function justPay($data) {
 		$result = $this->execute('justPay', $data);
 		
 		if (!empty($result['response']['transactionId'])) {
@@ -27,7 +26,7 @@ class Payze {
 		}
 	}
 	
-	public function addCard(array $data) {
+	public function addCard($data) {
 		$result = $this->execute('addCard', $data);
 		
 		if (!empty($result['response']['transactionId'])) {
@@ -37,7 +36,7 @@ class Payze {
 		}
 	}
 	
-	public function payWithCard(array $data) {
+	public function payWithCard($data) {
 		$result = $this->execute('payWithCard', $data);
 		
 		if (!empty($result['response']['transactionId'])) {
@@ -47,7 +46,7 @@ class Payze {
 		}
 	}
 	
-	public function commit(array $data) {
+	public function commit($data) {
 		$result = $this->execute('commit', $data);
 		
 		if (!empty($result['response']['transactionId'])) {
@@ -57,7 +56,7 @@ class Payze {
 		}
 	}
 	
-	public function refund(array $data) {
+	public function refund($data) {
 		$result = $this->execute('refund', $data);
 		
 		if (!empty($result['response']['transactionId'])) {
@@ -67,7 +66,7 @@ class Payze {
 		}
 	}
 	
-	public function getTransactionInfo(array $data) {
+	public function getTransactionInfo($data) {
 		$result = $this->execute('getTransactionInfo', $data);
 		
 		if (!empty($result['response']['transactionId'])) {
@@ -77,38 +76,38 @@ class Payze {
 		}
 	}
 												
-	public function hasErrors(): int {
+	public function hasErrors() {
 		return count($this->errors);
 	}
 	
-	public function getErrors(): array {
+	public function getErrors() {
 		return $this->errors;
 	}
 	
-	public function getResponse(): array {
+	public function getResponse() {
 		return $this->last_response;
 	}
 	
-	private function execute(string $method, array $data = array()): array {
-		$this->errors = [];
+	private function execute($method, $data = array()) {
+		$this->errors = array();
 
 		if ($method && $data) {
-			$params = [
+			$params = array(
 				'method' => $method,
 				'apiKey' => $this->api_key,
 				'apiSecret' => $this->api_secret,
 				'data' => $data
-			];
+			);
 			
-			$curl_options = [
+			$curl_options = array(
 				CURLOPT_URL => $this->server,
 				CURLOPT_HEADER => true,
 				CURLOPT_RETURNTRANSFER => true,
 				CURLOPT_INFILESIZE => Null,
-				CURLOPT_HTTPHEADER => [],
+				CURLOPT_HTTPHEADER => array(),
 				CURLOPT_CONNECTTIMEOUT => 20,
 				CURLOPT_TIMEOUT => 20
-			];
+			);
 			
 			$curl_options[CURLOPT_HTTPHEADER][] = 'Accept-Charset: utf-8';
 			$curl_options[CURLOPT_HTTPHEADER][] = 'Accept: application/json';
