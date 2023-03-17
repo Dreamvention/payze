@@ -5,6 +5,7 @@ $_['text_cart']                      		= 'Shopping Cart';
 $_['text_failure_page_title']				= 'Your order is failed!';
 $_['text_failure_page_message']				= 'Sorry, but the transaction failed! Please choose another payment method or <a href="%s" target="_blank">contact us</a>';
 $_['text_refunded_partially']				= 'Partial refund for %s';
+$_['text_loading']          				= 'Loading...';
 
 // Entry
 $_['entry_card_existing']					= 'I want to use an existing card';
