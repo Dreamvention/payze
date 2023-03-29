@@ -65,6 +65,7 @@ class Payze extends \Opencart\System\Engine\Controller {
 			'callbackError' => str_replace('&amp;', '&', $this->url->link('extension/payze/payment/payze', 'failure_page=true&language=' . $this->config->get('config_language'))),
 			'preauthorize' => $preauthorize,
 			'lang' => 'EN',
+			'channel' => 'opencart',
 			'hookUrl' => str_replace('&amp;', '&', $this->url->link('extension/payze/payment/payze', 'authorization_token=' . $order_info['order_id'] . '_' . date('Ymd_His'))),
 			'hookRefund' => true
 		];
