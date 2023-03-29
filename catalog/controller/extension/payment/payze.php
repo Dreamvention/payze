@@ -63,6 +63,7 @@ class ControllerExtensionPaymentPayze extends Controller {
 			'callbackError' => str_replace('&amp;', '&', $this->url->link('extension/payment/payze', 'failure_page=true', true)),
 			'preauthorize' => $preauthorize,
 			'lang' => 'EN',
+			'channel' => 'opencart',
 			'hookUrl' => str_replace('&amp;', '&', $this->url->link('extension/payment/payze', 'authorization_token=' . $order_info['order_id'] . '_' . date('Ymd_His'), true)),
 			'hookRefund' => true
 		);
