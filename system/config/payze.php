@@ -46,6 +46,7 @@ $_['payze_setting'] = array(
 			'name' => 'text_timeout_status',
 			'id' => 10
 		)
-	)
+	),
+	'language' => array('EN', 'KA', 'RU', 'UZ')
 );
 ?>

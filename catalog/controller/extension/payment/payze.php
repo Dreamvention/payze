@@ -45,6 +45,13 @@ class ControllerExtensionPaymentPayze extends Controller {
 		$api_key = $this->config->get('payze_api_key');
 		$api_secret = $this->config->get('payze_api_secret');
 		$preauthorize = (bool)$setting['general']['preauthorize'];
+		
+		$language_code = explode('-', $this->session->data['language']);
+		$language_code = strtoupper(reset($language_code));
+		
+		if (!in_array($language_code, $setting['language'])) {
+			$language_code = reset($setting['language']);
+		}
 											
 		$currency_code = $this->session->data['currency'];
 		$currency_value = $this->currency->getValue($this->session->data['currency']);
@@ -66,7 +73,7 @@ class ControllerExtensionPaymentPayze extends Controller {
 			'callback' => str_replace('&amp;', '&', $this->url->link('checkout/success', '', true)),
 			'callbackError' => str_replace('&amp;', '&', $this->url->link('extension/payment/payze', 'failure_page=true', true)),
 			'preauthorize' => $preauthorize,
-			'lang' => 'EN',
+			'lang' => $language_code,
 			'channel' => 'opencart',
 			'hookUrl' => str_replace('&amp;', '&', $this->url->link('extension/payment/payze', 'authorization_token=' . $order_info['order_id'] . '_' . date('Ymd_His'), true)),
 			'hookRefund' => true
