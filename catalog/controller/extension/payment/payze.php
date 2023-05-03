@@ -16,10 +16,6 @@ class ControllerExtensionPaymentPayze extends Controller {
 				$data['customer_cards'] = $this->model_extension_payment_payze->getCustomerCards($this->customer->getId());
 			}
 			
-			$data['text_loading'] = $this->language->get('text_loading');
-						
-			$data['button_confirm'] = $this->language->get('button_confirm');		
-			
 			return $this->load->view('extension/payment/payze/payze', $data);
 		}
 	}
@@ -42,6 +38,13 @@ class ControllerExtensionPaymentPayze extends Controller {
 		$api_secret = $this->config->get('payment_payze_api_secret');
 		$preauthorize = (bool)$setting['general']['preauthorize'];
 											
+		$language_code = explode('-', $this->session->data['language']);
+		$language_code = strtoupper(reset($language_code));
+		
+		if (!in_array($language_code, $setting['language'])) {
+			$language_code = reset($setting['language']);
+		}
+		
 		$currency_code = $this->session->data['currency'];
 		$currency_value = $this->currency->getValue($this->session->data['currency']);
 		$decimal_place = $this->currency->getDecimalPlace($this->session->data['currency']);
@@ -62,7 +65,7 @@ class ControllerExtensionPaymentPayze extends Controller {
 			'callback' => str_replace('&amp;', '&', $this->url->link('checkout/success', '', true)),
 			'callbackError' => str_replace('&amp;', '&', $this->url->link('extension/payment/payze', 'failure_page=true', true)),
 			'preauthorize' => $preauthorize,
-			'lang' => 'EN',
+			'lang' => $language_code,
 			'channel' => 'opencart',
 			'hookUrl' => str_replace('&amp;', '&', $this->url->link('extension/payment/payze', 'authorization_token=' . $order_info['order_id'] . '_' . date('Ymd_His'), true)),
 			'hookRefund' => true

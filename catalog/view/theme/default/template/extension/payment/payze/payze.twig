@@ -59,7 +59,7 @@ $('#payze-form #payze-button-confirm').on('click', function() {
 		data: $('#payze-form input[type="radio"]:checked, #payze-form input[type="checkbox"]:checked, #payze-form select'),
 		dataType: 'json',
 		beforeSend: function() {
-            $('#payze-button-confirm').button('loading');;
+            $('#payze-button-confirm').button('loading');
         },
         complete: function() {
            $('#payze-button-confirm').button('reset');
