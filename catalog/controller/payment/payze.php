@@ -45,6 +45,13 @@ class ControllerPaymentPayze extends Controller {
 		$api_key = $this->config->get('payze_api_key');
 		$api_secret = $this->config->get('payze_api_secret');
 		$preauthorize = (bool)$setting['general']['preauthorize'];
+		
+		$language_code = explode('-', $this->session->data['language']);
+		$language_code = strtoupper(reset($language_code));
+		
+		if (!in_array($language_code, $setting['language'])) {
+			$language_code = reset($setting['language']);
+		}
 											
 		$currency_code = $this->session->data['currency'];
 		$currency_value = $this->currency->getValue($this->session->data['currency']);
