@@ -43,6 +43,13 @@ class Payze extends \Opencart\System\Engine\Controller {
 		$api_key = $this->config->get('payment_payze_api_key');
 		$api_secret = $this->config->get('payment_payze_api_secret');
 		$preauthorize = (bool)$setting['general']['preauthorize'];
+		
+		$language_code = explode('-', $this->config->get('config_language'));
+		$language_code = strtoupper(reset($language_code));
+		
+		if (!in_array($language_code, $setting['language'])) {
+			$language_code = reset($setting['language']);
+		}
 			
 		$currency_code = $this->session->data['currency'];
 		$currency_value = $this->currency->getValue($this->session->data['currency']);
