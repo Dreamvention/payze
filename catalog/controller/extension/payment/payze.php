@@ -89,6 +89,15 @@ class ControllerExtensionPaymentPayze extends Controller {
 			$result = $payze->justPay($payze_data);
 		}
 		
+		if (!empty($result['response']['cardId']) && $this->customer->isLogged()) {
+			$payze_data = array(
+				'customer_id' => $this->customer->getId(),
+				'card_id' => $result['response']['cardId']
+			);
+					
+			$this->model_extension_payment_payze->addCustomerCard($payze_data);
+		}
+		
 		if (!empty($result['response']['transactionUrl'])) {
 			$data['redirect'] = $result['response']['transactionUrl'];
 		} elseif (!empty($result['response']['transactionId'])) {
@@ -246,13 +255,12 @@ class ControllerExtensionPaymentPayze extends Controller {
 						if ($order_info) {
 							$payze_data = array(
 								'customer_id' => $order_info['customer_id'],
-								'card_id' => $result['response']['transactionId'],
 								'card_brand' => $result['response']['cardBrand'],
 								'card_mask' => $result['response']['cardMask'],
 								'expiration_date' => $result['response']['expirationDate']
 							);
 					
-							$this->model_extension_payment_payze->addCustomerCard($payze_data);
+							$this->model_extension_payment_payze->updateCustomerCard($payze_data);
 						}
 					}
 					
