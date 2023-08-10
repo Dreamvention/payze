@@ -47,11 +47,16 @@ class Payze extends \Opencart\System\Engine\Model {
 	}
 	
 	public function addCustomerCard(array $data): void {
-		$this->db->query("INSERT INTO `" . DB_PREFIX . "payze_customer_card` SET `customer_id` = '" . (int)$data['customer_id'] . "', `card_id` = '" . $this->db->escape($data['card_id']) . "', `card_brand` = '" . $this->db->escape($data['card_brand']) . "', `card_mask` = '" . $this->db->escape($data['card_mask']) . "', `expiration_date` = '" . $this->db->escape($data['expiration_date']) . "'");
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "payze_customer_card` WHERE `customer_id` = '" . (int)$data['customer_id'] . "' AND `card_mask` = ''");
+		$this->db->query("INSERT INTO `" . DB_PREFIX . "payze_customer_card` SET `customer_id` = '" . (int)$data['customer_id'] . "', `card_id` = '" . $this->db->escape($data['card_id']) . "'");
+	}
+	
+	public function updateCustomerCard(array $data): void {
+		$this->db->query("UPDATE `" . DB_PREFIX . "payze_customer_card` SET `card_brand` = '" . $this->db->escape($data['card_brand']) . "', `card_mask` = '" . $this->db->escape($data['card_mask']) . "', `expiration_date` = '" . $this->db->escape($data['expiration_date']) . "' WHERE `customer_id` = '" . (int)$data['customer_id'] . "' AND `card_mask` = ''");
 	}
 	
 	public function getCustomerCards(int $customer_id): array {
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "payze_customer_card` WHERE `customer_id` = '" . (int)$customer_id . "'");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "payze_customer_card` WHERE `customer_id` = '" . (int)$customer_id . "' AND `card_mask` != ''");
 
 		if ($query->num_rows) {
 			return $query->rows;
