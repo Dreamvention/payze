@@ -70,7 +70,7 @@ class ControllerExtensionPaymentPayze extends Controller {
 			'hookUrl' => str_replace('&amp;', '&', $this->url->link('extension/payment/payze', 'authorization_token=' . $order_info['order_id'] . '_' . date('Ymd_His'), true)),
 			'hookRefund' => true
 		);
-			
+					
 		if (!empty($this->request->post['payze_card_existing']) && !empty($this->request->post['payze_card'])) {
 			$payze_data['cardToken'] = $this->request->post['payze_card'];
 			
@@ -79,6 +79,15 @@ class ControllerExtensionPaymentPayze extends Controller {
 			$result = $payze->addCard($payze_data);
 		} else {
 			$result = $payze->justPay($payze_data);
+		}
+				
+		if (!empty($result['response']['cardId']) && $this->customer->isLogged()) {
+			$payze_data = array(
+				'customer_id' => $this->customer->getId(),
+				'card_id' => $result['response']['cardId']
+			);
+					
+			$this->model_extension_payment_payze->addCustomerCard($payze_data);
 		}
 		
 		if (!empty($result['response']['transactionUrl'])) {
@@ -176,7 +185,7 @@ class ControllerExtensionPaymentPayze extends Controller {
 			);
 			
 			$result = $payze->getTransactionInfo($payze_data);
-			
+						
 			if (!empty($result['response']['transactionId']) && !empty($result['response']['status'])) {
 				$authorization_token = explode('_', $this->request->get['authorization_token']);
 				$order_id = reset($authorization_token);
@@ -236,13 +245,12 @@ class ControllerExtensionPaymentPayze extends Controller {
 						if ($order_info) {
 							$payze_data = array(
 								'customer_id' => $order_info['customer_id'],
-								'card_id' => $result['response']['transactionId'],
 								'card_brand' => $result['response']['cardBrand'],
 								'card_mask' => $result['response']['cardMask'],
 								'expiration_date' => $result['response']['expirationDate']
 							);
 					
-							$this->model_extension_payment_payze->addCustomerCard($payze_data);
+							$this->model_extension_payment_payze->updateCustomerCard($payze_data);
 						}
 					}
 					
