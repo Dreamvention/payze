@@ -1,6 +1,5 @@
 <?php
 namespace Opencart\Admin\Controller\Extension\Payze\Payment;
-use \Opencart\System\Helper AS Helper;
 class Payze extends \Opencart\System\Engine\Controller {
 	private $error = [];
 	private $separator = '';
@@ -168,14 +167,14 @@ class Payze extends \Opencart\System\Engine\Controller {
 		
 		$this->request->post['payment_payze_api_key'] = trim($this->request->post['payment_payze_api_key']);
 
-		if (Helper\Utf8\strlen($this->request->post['payment_payze_api_key']) != 32) {
+		if (mb_strlen($this->request->post['payment_payze_api_key']) != 32) {
 			$this->error['api_key'] = $this->language->get('error_api_key');
 			$this->error['warning'] = $this->language->get('error_warning');
 		} 
 		
 		$this->request->post['payment_payze_api_secret'] = trim($this->request->post['payment_payze_api_secret']);
 
-		if (Helper\Utf8\strlen($this->request->post['payment_payze_api_secret']) != 32) {
+		if (mb_strlen($this->request->post['payment_payze_api_secret']) != 32) {
 			$this->error['api_secret'] = $this->language->get('error_api_secret');
 			$this->error['warning'] = $this->language->get('error_warning');
 		} 
