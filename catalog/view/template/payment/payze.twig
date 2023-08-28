@@ -51,7 +51,7 @@ $('#payze-form .input-payze-card-existing').on('change', function() {
 $('#payze-form #payze-button-confirm').on('click', function() {	
 	$.ajax({
 		type: 'post',
-		url: 'index.php?route=extension/payze/payment/payze|confirm&language={{ language }}',
+		url: 'index.php?route=extension/payze/payment/payze{{ separator }}confirm&language={{ language }}',
 		data: $('#payze-form input[type="radio"]:checked, #payze-form input[type="checkbox"]:checked, #payze-form select'),
 		dataType: 'json',
 		beforeSend: function() {

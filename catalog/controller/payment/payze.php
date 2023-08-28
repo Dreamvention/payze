@@ -2,6 +2,17 @@
 namespace Opencart\Catalog\Controller\Extension\Payze\Payment;
 class Payze extends \Opencart\System\Engine\Controller {
 	private $error = [];
+	private $separator = '';
+	
+	public function __construct($registry) {
+        parent::__construct($registry);
+
+		if (VERSION >= '4.0.2.0') {
+			$this->separator = '.';
+		} else {
+			$this->separator = '|';
+		}
+    }
 	
 	public function index(): string {
 		if ($this->config->get('payment_payze_api_key') && $this->config->get('payment_payze_api_secret') && !$this->failurePage() && !$this->webhook()) {
@@ -16,6 +27,8 @@ class Payze extends \Opencart\System\Engine\Controller {
 				
 				$data['customer_cards'] = $this->model_extension_payze_payment_payze->getCustomerCards($this->customer->getId());
 			}
+			
+			$data['separator'] = $this->separator;
 			
 			$data['language'] = $this->config->get('config_language');			
 			
@@ -144,7 +157,7 @@ class Payze extends \Opencart\System\Engine\Controller {
 
 			$data['breadcrumbs'][] = [
 				'text' => $this->language->get('text_title'),
-				'href' => $this->url->link('extension/payze/payment/payze|failurePage', 'language=' . $this->config->get('config_language'))
+				'href' => $this->url->link('extension/payze/payment/payze' . $this->separator . 'failurePage', 'language=' . $this->config->get('config_language'))
 			];
 				
 			$data['text_title'] = $this->language->get('text_failure_page_title');

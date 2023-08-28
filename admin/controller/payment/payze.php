@@ -3,6 +3,17 @@ namespace Opencart\Admin\Controller\Extension\Payze\Payment;
 use \Opencart\System\Helper AS Helper;
 class Payze extends \Opencart\System\Engine\Controller {
 	private $error = [];
+	private $separator = '';
+	
+	public function __construct($registry) {
+        parent::__construct($registry);
+
+		if (VERSION >= '4.0.2.0') {
+			$this->separator = '.';
+		} else {
+			$this->separator = '|';
+		}
+    }
 	
 	public function index(): void {
 		$this->load->language('extension/payze/payment/payze');
@@ -26,7 +37,7 @@ class Payze extends \Opencart\System\Engine\Controller {
 			'href' => $this->url->link('extension/payze/payment/payze', 'user_token=' . $this->session->data['user_token'])
 		];
 
-		$data['save'] = $this->url->link('extension/payze/payment/payze|save', 'user_token=' . $this->session->data['user_token']);
+		$data['save'] = $this->url->link('extension/payze/payment/payze' . $this->separator . 'save', 'user_token=' . $this->session->data['user_token']);
 		$data['back'] = $this->url->link('marketplace/extension', 'user_token=' . $this->session->data['user_token'] . '&type=payment');
 
 		// Setting 		
@@ -102,13 +113,13 @@ class Payze extends \Opencart\System\Engine\Controller {
 		$this->model_setting_event->deleteEventByCode('payze_customer_delete_customer');
 		
 		if (VERSION >= '4.0.1.0') {
-			$this->model_setting_event->addEvent(['code' => 'payze_order_add_history', 'description' => '', 'trigger' => 'catalog/model/checkout/order/addHistory/before', 'action' => 'extension/payze/payment/payze|order_add_history_before', 'status' => true, 'sort_order' => 1]);
-			$this->model_setting_event->addEvent(['code' => 'payze_order_delete_order', 'description' => '', 'trigger' => 'catalog/model/checkout/order/deleteOrder/before', 'action' => 'extension/payze/payment/payze|order_delete_order_before', 'status' => true, 'sort_order' => 2]);
-			$this->model_setting_event->addEvent(['code' => 'payze_customer_delete_customer', 'description' => '', 'trigger' => 'admin/model/customer/customer/deleteCustomer/before', 'action' => 'extension/payze/payment/payze|customer_delete_customer_before', 'status' => true, 'sort_order' => 3]);
+			$this->model_setting_event->addEvent(['code' => 'payze_order_add_history', 'description' => '', 'trigger' => 'catalog/model/checkout/order/addHistory/before', 'action' => 'extension/payze/payment/payze' . $this->separator . 'order_add_history_before', 'status' => true, 'sort_order' => 1]);
+			$this->model_setting_event->addEvent(['code' => 'payze_order_delete_order', 'description' => '', 'trigger' => 'catalog/model/checkout/order/deleteOrder/before', 'action' => 'extension/payze/payment/payze' . $this->separator . 'order_delete_order_before', 'status' => true, 'sort_order' => 2]);
+			$this->model_setting_event->addEvent(['code' => 'payze_customer_delete_customer', 'description' => '', 'trigger' => 'admin/model/customer/customer/deleteCustomer/before', 'action' => 'extension/payze/payment/payze' . $this->separator . 'customer_delete_customer_before', 'status' => true, 'sort_order' => 3]);
 		} else {
-			$this->model_setting_event->addEvent('payze_order_add_history', '', 'catalog/model/checkout/order/addHistory/before', 'extension/payze/payment/payze|order_add_history_before', true, 1);
-			$this->model_setting_event->addEvent('payze_order_delete_order', '', 'catalog/model/checkout/order/deleteOrder/before', 'extension/payze/payment/payze|order_delete_order_before', true, 2);
-			$this->model_setting_event->addEvent('payze_customer_delete_customer', '', 'admin/model/customer/customer/deleteCustomer/before', 'extension/payze/payment/payze|customer_delete_customer_before', true, 3);
+			$this->model_setting_event->addEvent('payze_order_add_history', '', 'catalog/model/checkout/order/addHistory/before', 'extension/payze/payment/payze' . $this->separator . 'order_add_history_before', true, 1);
+			$this->model_setting_event->addEvent('payze_order_delete_order', '', 'catalog/model/checkout/order/deleteOrder/before', 'extension/payze/payment/payze' . $this->separator . 'order_delete_order_before', true, 2);
+			$this->model_setting_event->addEvent('payze_customer_delete_customer', '', 'admin/model/customer/customer/deleteCustomer/before', 'extension/payze/payment/payze' . $this->separator . 'customer_delete_customer_before', true, 3);
 		}
 	}
 		
