@@ -87,7 +87,7 @@ class ModelExtensionPaymentPayze extends Model {
 		$query = $this->db->query("UPDATE `" . DB_PREFIX . "order_total` SET `value` = '" . (float)$order_total . "' WHERE `order_id` = '" . (int)$order_id . "' AND `code` = 'total'");
 	}
 	
-	public function log($data, $title = null) {
+	public function log($data, $title = '') {
 		$_config = new Config();
 		$_config->load('payze');
 			
