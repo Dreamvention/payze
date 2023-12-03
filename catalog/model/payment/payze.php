@@ -49,7 +49,9 @@ class Payze extends \Opencart\System\Engine\Model {
 	public function getMethods(array $address = []): array {
 		$this->load->language('extension/payze/payment/payze');
 			
-		if (!$this->config->get('config_checkout_payment_address')) {
+		if ($this->cart->hasSubscription()) {
+			$status = false;
+		} elseif (!$this->config->get('config_checkout_payment_address')) {
 			$status = true;
 		} elseif (!$this->config->get('payment_payze_geo_zone_id')) {
 			$status = true;

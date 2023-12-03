@@ -163,7 +163,7 @@ class Payze extends \Opencart\System\Engine\Controller {
 			$data['text_title'] = $this->language->get('text_failure_page_title');
 			$data['text_message'] = sprintf($this->language->get('text_failure_page_message'), $this->url->link('information/contact', 'language=' . $this->config->get('config_language')));
 		
-			$data['continue'] = $this->url->link('common/home');
+			$data['continue'] = $this->url->link('common/home', 'language=' . $this->config->get('config_language'));
 		
 			$data['language'] = $this->config->get('config_language');
 				
